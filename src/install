@@ -41,7 +41,7 @@ DPkg::Pre-Install-Pkgs {
 };
 
 DPkg::Post-Invoke {
-    "[ -f /tmp/.pve-nag-buster ] && /usr/share/pve-nag-buster.sh && rm -f /tmp/.pve-nag-buster; exit 0";
+    "[ -f /tmp/.pve-nag-buster ] && { /usr/share/pve-nag-buster.sh; rm -f /tmp/.pve-nag-buster; }; exit 0";
 };
 EOF
 
