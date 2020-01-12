@@ -24,7 +24,7 @@ NAGFILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
 
 # disable license nag: https://johnscs.com/remove-proxmox51-subscription-notice/
 
-if $(grep -q "$NAGTOKEN" "$NAGFILE") ; then
+if grep -qs "$NAGTOKEN" "$NAGFILE" > /dev/null 2>&1; then
 	echo "$0: Removing Nag ..."
 	sed -i.orig "s/$NAGTOKEN/false/g" "$NAGFILE"
 	systemctl restart pveproxy.service
