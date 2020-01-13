@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # pve-nag-buster.sh (v03) https://github.com/foundObjects/pve-nag-buster
 # Copyright (C) 2019 /u/seaQueue (reddit.com/u/seaQueue)

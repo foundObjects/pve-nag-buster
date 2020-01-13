@@ -1,5 +1,5 @@
-#!/bin/bash
-set -euo pipefail
+#!/bin/sh
+case "$(readlink /proc/$$/exe)" in */bash) set -euo pipefail ;; *) set -eu ;; esac
 
 # pve-nag-buster (v03) https://github.com/foundObjects/pve-nag-buster
 # Copyright (C) 2019 /u/seaQueue (reddit.com/u/seaQueue)
@@ -22,12 +22,12 @@ set -euo pipefail
 
 # ensure a predictable environment
 PATH=/usr/sbin:/usr/bin:/sbin:/bin
-unalias -a
+\unalias -a
 
 # installer main body:
 _main() {
   # ensure $1 exists so 'set -u' doesn't error out
-  (("$#" == 0)) && { set -- ""; } >&/dev/null
+  [ "$#" -eq "0" ] && { set -- ""; } > /dev/null 2>&1
 
   case "$1" in
     "--emit")
@@ -62,7 +62,6 @@ _uninstall() {
     rm -f "/usr/share/pve-nag-buster.sh"
 
   echo "Script and dpkg hooks removed, please manually remove /etc/apt/sources.list.d/pve-no-subscription.list if desired"
-  exit 0
 }
 
 _install() {
@@ -95,7 +94,7 @@ _install() {
 
   echo "Installing script to /usr/share/pve-nag-buster.sh"
   temp=''
-  if [[ "$1" == "--offline" ]]; then
+  if [ "$1" = "--offline" ]; then
     # offline mode, emit stored script
     temp="$(mktemp)" && trap "rm -f $temp" EXIT
     emit_script > "$temp"
@@ -126,29 +125,28 @@ _install() {
 
 emit_script() {
   base64 -d << 'YEET' | unxz
-/Td6WFoAAATm1rRGAgAhARwAAAAQz1jM4AX4A41dABGIQkY99Bhqpmevep/kIs9shoiNvzAP074w
-LI3FnbhLtpij4weS6SyCQK59Kz5tjbWnQyPF33jFXvJXaoUNWDu1jNCPGEbx8L/Xao1oj9pvY3Kg
-1uiwbnqeFY3T0BVw3vH9v/mVM6jVs0gGace5y1ki7lhS3HB4q9iVjJX5r/YVESrEAGySvuExVL23
-Z0oXeFJgOvXO004IZYFS2oBqhv5RAgZ8/CXFodJxQF4RPUltfoDJ+ZtX7kh94C/s1Ke/Sx+X/OGr
-UXzrTQMRYBtjbDv0bpHly5aADIveLB+OXCPWu9Ad+r07/DQjX+jPTuwrlKeE+tC7Bn5xjJVeCh6t
-E7l91jOmfJ8SkMlRGwXNMyPNN/q278+4PfKVWTe1SzU+UdVjrOpyoVu2Tu1VvOOKK5XGp01688oy
-P6Jm/DGROszIk/6TWOE58XXy6ipM0RRlScwWIWPd/6/eqn3pz4hvVUlGdziPMGGZ8hkG6RIzs+eq
-WGwdU/Q17Kq45Rn0GBHiOq+Z/G3hWEYi5IgUpMb53YcnjidO/PQCLmpNX4XMN3Yp1kAcGUusJTCU
-1RUQ1rsSTEoqr+VN/Z6lM8a75/x/6El0JC0jev1GopvvFRtJnyxrbOeqOaBd95cCAotmR7A6Qyje
-R2cdqqSkFRcGgwVFcgu9WjLsRKGsSSkRbhkI0Kc9Q/3stV/iUXp2ra1DgVy5hkSC+Di5YhyUycCy
-ltjKq3ck6CLwKMObb9kJ+oCRnO4W33lGdRQE4V4qtXpCZHqvB4L0x/k83TM0j0j6FkO7KdUK/nNu
-gYVDfWgEFRFZkI80UFWUtKk7xPpv0FHuYJ2OycDHCRIYdqcIjfwY+LhDUhALVIElAQEn7TrsZV9G
-x6uF3MsmknV6Ml56A0snUMD0Ig09Fa8r+wqKmhPpQtusjnRPA2v9t4iPZ7DDlBK2m7VY1vHIgMtM
-M5OPtZ+aY4soOMrj0zbaIjvKwrAiSUhJ1msoZg3ARtJ/s4m+mP+7WB2C4sOBYTK/prZAUNaDj+Sp
-eGWdGs/Uh8VjDbwrLQWX28XrWWdl9h4KG9xlwF9TjJMVriDhUp6gLrghCTahNreCWtGe0L2MNcMS
-JbcIoThfZs0cxzKJDNtovQjxBP3vHaNBTxzZ5LWTW++C02FAx+7fkvk3FZsbxKCg4QE2HeLdPFPe
-OVRx+ZjPAmaPF1tx/qm2GzBPbNZHJRm6sQ/JegAAAAA8deMi83ilmAABqQf5CwAAJ/5duLHEZ/sC
-AAAAAARZWg==
+/Td6WFoAAATm1rRGAgAhARwAAAAQz1jM4AX2A4pdABGIQkY99BY0cwoNj8U0dcgowbs41qLC+aej
+mGQYj9kDeUYQYXlQbEahoJLO08e8hIe8MoGJqvcVxM5VQehFNPqq4OH1KhbHgYGz5QSdcYFBPv2D
+jY49iua72aQVDTzDsGFB7NKSSnbJvwPX6WvyHPM+YSTXqQiWDjian8iINwzsA43yWdFI1mOKn0/4
+hRFy2JOUfs8lSPi0/lWwPBTpu1rk8jjFllid/53iIKUdAJXEB46QLnHWh93dffa4T3Nw1iUFI8t7
+qYqwC05lZZRcxH6rR5siMu0IvrWPOFdk3RC+Hxu6cWGNwQU3Qg2Fp1eL6OxV25ZlKkxHsbV/1RZQ
+v6oO3yN+u+fE8Hosh5Menm0W/xjo3+gN//tRxBjE7djbi3yE58fcnL00PCgdpZ7jbVUMBOSxafAK
+QvTqN2M66xEeugkFWTXwj/j1ByAa3vCbmgfvUDFsznJs88AlZIlUfI8FJY7DW715ULQ1A7Ot/u29
+cj9ZY9m6TgbXY1CvOb3HPcVxTUWT86agk3YSDiuIEuTXUTY/CF3mtDhk51uWI16D8K/P3JkBnZJl
+Iv1jMe8GbydGG6vzOkzowGdOdYaktPn595lEAhwqSPgRwvBth+1x/gWiHhycK0ggFWUpclYOM3WH
++JAerc7G41krKJQyJYwsCKOnLhkMb5d0zLCs1VYbY1/u9XpG59SL1oVeIHcSKhXQhVu6/04iBAHH
+otL1ZRuK5uRagpRKv0xLpi73waXAxeGczB7MtyFnUhU2+HcDQoZ2t+P1JkSaZPL9pkJtCWXb7wcn
+ldyo8h7NOqf3Zg8BZydHQQ7zxUDXEHaDEhihpx+fYLuDnSdYT401yoXXQIGeWrbUEE4zazNRYngl
+vVKMheX3lnXwD0u+lp6Yz5fKUJMvZKq7QpziFyNm5KbrRrj42DmH3Y+rftk2duVV2g1YDHiY/I3f
+BBnK4IepebpLICNN+vKaYnAmxiO1Xfpzm0XTU7OPR+N6269sBlUtwK1mdM5b4bxNveo6nMz/MDlZ
+Iuf4iF+nbiIhXIN8xfaBSOFUwxcANeaOxYLMfjMS05v1NtMOqEdIYzVXni0DHqtxs9dQaaM/jC4S
+mwrfKTTLKCewSTGVsFSOGNPwOAM5/Fxu3snKRlYeLwKC7uq9uTFR/L64HzG0TPfjmkH24hNsuhe7
+JtcdlRcbL5rHN9C5PNOpCqcEeRDmVsS0sgAAAMwFRS7YkAXGAAGmB/cLAADBO9SpscRn+wIAAAAA
+BFla
 YEET
 }
 
-assert_root() { [ $(id -u) -eq '0' ] || { echo "This action requires root." && exit 0; }; }
-err() { echo "Err '${FUNCNAME[1]}': $*" >&2; }
+assert_root() { [ "$(id -u)" -eq '0' ] || { echo "This action requires root." && exit 1; }; }
 _usage() { echo "Usage: $(basename "$0") (--emit|--offline|--uninstall)"; }
 
 _main "$@"
