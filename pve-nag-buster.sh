@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# pve-nag-buster.sh (v02) https://github.com/foundObjects/pve-nag-buster
+# pve-nag-buster.sh (v03) https://github.com/foundObjects/pve-nag-buster
 # Copyright (C) 2019 /u/seaQueue (reddit.com/u/seaQueue)
 #
-# Removes Proxmox VE 5.x license nags automatically after updates
+# Removes Proxmox VE 5.x+ license nags automatically after updates
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,11 +21,12 @@
 
 NAGTOKEN="data.status !== 'Active'"
 NAGFILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
+SCRIPT="$(basename $0)"
 
 # disable license nag: https://johnscs.com/remove-proxmox51-subscription-notice/
 
 if grep -qs "$NAGTOKEN" "$NAGFILE" > /dev/null 2>&1; then
-  echo "$0: Removing Nag ..."
+  echo "$SCRIPT: Removing Nag ..."
   sed -i.orig "s/$NAGTOKEN/false/g" "$NAGFILE"
   systemctl restart pveproxy.service
 fi
@@ -35,6 +36,6 @@ fi
 PAID_BASE="/etc/apt/sources.list.d/pve-enterprise"
 
 if [ -f "$PAID_BASE.list" ]; then
-  echo "$0: Disabling PVE paid repo list ..."
+  echo "$SCRIPT: Disabling PVE paid repo list ..."
   mv -f "$PAID_BASE.list" "$PAID_BASE.disabled"
 fi
