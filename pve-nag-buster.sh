@@ -25,9 +25,9 @@ NAGFILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
 # disable license nag: https://johnscs.com/remove-proxmox51-subscription-notice/
 
 if grep -qs "$NAGTOKEN" "$NAGFILE" > /dev/null 2>&1; then
-	echo "$0: Removing Nag ..."
-	sed -i.orig "s/$NAGTOKEN/false/g" "$NAGFILE"
-	systemctl restart pveproxy.service
+  echo "$0: Removing Nag ..."
+  sed -i.orig "s/$NAGTOKEN/false/g" "$NAGFILE"
+  systemctl restart pveproxy.service
 fi
 
 # disable paid repo list
@@ -35,6 +35,6 @@ fi
 PAID_BASE="/etc/apt/sources.list.d/pve-enterprise"
 
 if [ -f "$PAID_BASE.list" ]; then
-	echo "$0: Disabling PVE paid repo list ..."
-	mv -f "$PAID_BASE.list" "$PAID_BASE.disabled"
+  echo "$0: Disabling PVE paid repo list ..."
+  mv -f "$PAID_BASE.list" "$PAID_BASE.disabled"
 fi
