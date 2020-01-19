@@ -27,7 +27,7 @@ PATH=/usr/sbin:/usr/bin:/sbin:/bin
 # installer main body:
 _main() {
   # ensure $1 exists so 'set -u' doesn't error out
-  [ "$#" -eq "0" ] && { set -- ""; } > /dev/null 2>&1
+  { [ "$#" -eq "0" ] && set -- ""; } > /dev/null 2>&1
 
   case "$1" in
     "--emit")
@@ -67,7 +67,24 @@ _uninstall() {
 _install() {
   # create hooks and no-subscription repo list, install hook script, run once
 
-  RELEASE=$(awk -F"[)(]+" '/VERSION=/ {print $2}' /etc/os-release)
+  VERSION_CODENAME=''
+  ID=''
+  . /etc/os-release
+  case "$ID" in
+    "debian")
+      if [ -n "$VERSION_CODENAME" ]; then
+        RELEASE="$VERSION_CODENAME"
+      else
+        RELEASE=$(awk -F"[)(]+" '/VERSION=/ {print $2}' /etc/os-release)
+      fi
+      ;;
+    #"ubuntu") # it doesn't look like this is possible anymore
+    #  ;;
+    *)
+      echo "Sorry, I don't know how to handle your Linux distribution '$ID'"
+      exit 1
+      ;;
+  esac
 
   # create the pve-no-subscription list
   echo "Creating PVE no-subscription repo list ..."
