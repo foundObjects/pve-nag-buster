@@ -1,6 +1,6 @@
 #!/bin/sh
 
-_VERS="v02"
+_VERS="v02a"
 _BRANCH=$(git branch --show-current) ||
   { echo "can't poll branch, defaulting to master" && _BRANCH="master"; }
 
