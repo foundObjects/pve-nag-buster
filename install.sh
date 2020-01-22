@@ -109,10 +109,10 @@ _install() {
 	};
 	EOF
 
-  echo "Installing script to /usr/share/pve-nag-buster.sh"
+  # install the hook script
   temp=''
   if [ "$1" = "--offline" ]; then
-    # offline mode, emit stored script
+    # packed script requested
     temp="$(mktemp)" && trap "rm -f $temp" EXIT
     emit_script > "$temp"
   elif [ -f "pve-nag-buster.sh" ]; then
@@ -120,12 +120,19 @@ _install() {
     temp="pve-nag-buster.sh"
   else
     # fetch from github
-    temp="$(mktemp)" && trap "rm -f $temp" EXIT
+    echo "Fetching hook script from GitHub ..."
+    tempd="$(mktemp -d)" &&
+      trap "echo 'Cleaning up temporary files ...'; rm -f $tempd/*; rmdir $tempd" EXIT
+    temp="$tempd/pve-nag-buster.sh"
     wget https://raw.githubusercontent.com/foundObjects/pve-nag-buster/master/pve-nag-buster.sh \
-      -O "$temp"
+      -q --show-progress -O "$temp"
   fi
+  echo "Installing hook script as /usr/share/pve-nag-buster.sh"
   install -o root -m 0550 "$temp" "/usr/share/pve-nag-buster.sh"
+
+  echo "Running patch script"
   /usr/share/pve-nag-buster.sh
+
   return 0
 }
 
