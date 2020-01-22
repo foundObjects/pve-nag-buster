@@ -49,24 +49,25 @@ To inspect the base64 encoded script run `./install.sh --emit`; this dumps the
 encoded copy to stdout and quits. To install using the stored copy just run
 `sudo ./install.sh --offline`, no internet required.
 
-#### Support for PVE packages on non-PVE systems
-
-If you're doing something weird like running PVE packages installed on top of
-Ubuntu you'll need to edit install.sh and set the RELEASE in the \_install
-function to something sane that'll work on your system.  As of now (2020-01-09)
-that's probably "buster". One of these days I'll add some logic to translate
-from various Ubuntu releases to an appropriate PVE repo debian codename. I
-suspect this'll be Bionic & Focal --> buster; I have no idea about Xenial,
-maybe stretch? I could use feedback from someone doing this.
-
 #### Git repo history
 
 Sorry to all 5 of you who forked the repo before about 2020-01-20; I rewrote
-git history to cleanup the commit noise from adding files through GitHub's web UI
-originally.
+git history to cleanup the commit noise from adding files through GitHub's web
+UI.
 
-Migrating to the new master branch should be fairly straightforward, the v02 tag
-repo state is identical to the repo state before the rewrite.
+If you need to sync a cloned repo with the new history and haven't made any
+changes:
+
+```
+git fetch --all -p -P
+git push -f . origin/master:master
+```
+
+If you've made changes to the code:
+
+Migrating to the new master branch should be fairly straightforward, the v02
+tag repo state in the new commit history is identical to the repo state before
+the rebase.
 
 ```
 # save and commit your work
@@ -74,19 +75,15 @@ git commit -a -m "WIP"
 
 # make a backup of your branch Just In Case™
 git checkout -b backup
-git switch -
+git checkout -
 
 git fetch --all
 git rebase -f --onto v02 origin/old-master <your branch here>
 ```
-At this point you can merge into master or pick commits to merge into your work.
 
-I highly recommend picking at least the following commits if you don't want to
-track master. They fix a couple of potential problems and the v02 branch cleans
-up the source tree quite a bit.
+I highly recommend picking at least the following bugfix commits if you don't
+want to track new work in master, they fix a couple of potential problems.
 
-* 3fa4e7d (tag: v02a, v02) fixup for v02a release
-* 674e924 rewrite make-release script to drop templates
 * a260891 hook script: fixed grep test issue
 * 427b23b more reliable hook trigger removal
 
