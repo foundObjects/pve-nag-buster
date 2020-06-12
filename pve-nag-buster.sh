@@ -21,7 +21,7 @@
 
 NAGTOKEN="data.status !== 'Active'"
 NAGFILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
-SCRIPT="$(basename $0)"
+SCRIPT="$(basename "$0")"
 
 # disable license nag: https://johnscs.com/remove-proxmox51-subscription-notice/
 

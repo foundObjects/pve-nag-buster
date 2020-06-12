@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC2064
 case "$(readlink /proc/$$/exe)" in */bash) set -euo pipefail ;; *) set -eu ;; esac
 
 # pve-nag-buster (v03) https://github.com/foundObjects/pve-nag-buster
