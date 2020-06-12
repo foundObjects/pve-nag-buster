@@ -13,9 +13,10 @@ means. High quality open source software like Proxmox needs our support!
 The included hook script removes the "unlicensed node" popup nag from the web
 gui and disables the pve-enterprise repository list. This script is called
 every time a package updates the web gui or the pve-enterprise source list and
-will only run if packages containing those files are changed. The installer
-drops the hook script and creates dpkg hooks to call it then adds the
-pve-no-subscription repo list and calls the hook script once. There are no
+will only run if packages containing those files are changed.
+
+The installer drops the hook script and creates dpkg hooks to call it then adds
+the pve-no-subscription repo list and calls the hook script once. There are no
 external dependencies beyond the base packages installed with PVE by default
 (awk, sed, grep, wget).
 
@@ -96,7 +97,7 @@ encoded copy to stdout and quits. To install using the stored copy just run
 
 ### Credits:
 
-Thanks to John McLaren for his [blog post](https://www.reddit.com/user/seaqueue) documenting the web gui patch:
+Thanks to John McLaren for his [blog post](https://www.reddit.com/user/seaqueue) documenting the web gui patch.
 
 ### Contact:
 
