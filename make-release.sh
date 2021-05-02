@@ -1,7 +1,7 @@
 #!/bin/sh
 
-_VERS="v03"
-_BRANCH=$(git branch --show-current) >/dev/null 2>&1  ||
+_VERS="v04"
+_BRANCH=$(git rev-parse --abbrev-ref HEAD) >/dev/null 2>&1  ||
   { echo "can't poll branch, defaulting to master" && _BRANCH="master"; }
 
 # update versions before packing install.sh

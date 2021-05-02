@@ -1,11 +1,11 @@
 #!/bin/sh
 # shellcheck disable=SC2064
-case "$(readlink /proc/$$/exe)" in */bash) set -euo pipefail ;; *) set -eu ;; esac
+set -eu
 
-# pve-nag-buster (v03) https://github.com/foundObjects/pve-nag-buster
+# pve-nag-buster (v04) https://github.com/foundObjects/pve-nag-buster
 # Copyright (C) 2019 /u/seaQueue (reddit.com/u/seaQueue)
 #
-# Removes Proxmox VE 5.x+ license nags automatically after updates
+# Removes Proxmox VE 6.x+ license nags automatically after updates
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -71,21 +71,11 @@ _install() {
   VERSION_CODENAME=''
   ID=''
   . /etc/os-release
-  case "$ID" in
-    "debian")
-      if [ -n "$VERSION_CODENAME" ]; then
-        RELEASE="$VERSION_CODENAME"
-      else
-        RELEASE=$(awk -F"[)(]+" '/VERSION=/ {print $2}' /etc/os-release)
-      fi
-      ;;
-    #"ubuntu") # it doesn't look like this is possible anymore
-    #  ;;
-    *)
-      echo "Sorry, I don't know how to handle your Linux distribution '$ID'"
-      exit 1
-      ;;
-  esac
+  if [ -n "$VERSION_CODENAME" ]; then
+    RELEASE="$VERSION_CODENAME"
+  else
+    RELEASE=$(awk -F"[)(]+" '/VERSION=/ {print $2}' /etc/os-release)
+  fi
 
   # create the pve-no-subscription list
   echo "Creating PVE no-subscription repo list ..."
@@ -146,28 +136,28 @@ _install() {
 # Important: if you're not me you should probably decode this and read it to make sure I'm not doing
 #            something malicious like mining dogecoin or stealing your valuable cat pictures
 
-# pve-nag-buster.sh (v03) encoded below:
+# pve-nag-buster.sh (v04) encoded below:
 
 emit_script() {
   base64 -d << 'YEET' | unxz
-/Td6WFoAAATm1rRGAgAhARwAAAAQz1jM4AX2A4pdABGIQkY99BY0cwoNj8U0dcgowbs41qLC+aej
-mGQYj9kDeUYQYXlQbEahoJLO08e8hIe8MoGJqvcVxM5VQehFNPqq4OH1KhbHgYGz5QSdcYFBPv2D
-jY49iua72aQVDTzDsGFB7NKSSnbJvwPX6WvyHPM+YSTXqQiWDjian8iINwzsA43yWdFI1mOKn0/4
-hRFy2JOUfs8lSPi0/lWwPBTpu1rk8jjFllid/53iIKUdAJXEB46QLnHWh93dffa4T3Nw1iUFI8t7
-qYqwC05lZZRcxH6rR5siMu0IvrWPOFdk3RC+Hxu6cWGNwQU3Qg2Fp1eL6OxV25ZlKkxHsbV/1RZQ
-v6oO3yN+u+fE8Hosh5Menm0W/xjo3+gN//tRxBjE7djbi3yE58fcnL00PCgdpZ7jbVUMBOSxafAK
-QvTqN2M66xEeugkFWTXwj/j1ByAa3vCbmgfvUDFsznJs88AlZIlUfI8FJY7DW715ULQ1A7Ot/u29
-cj9ZY9m6TgbXY1CvOb3HPcVxTUWT86agk3YSDiuIEuTXUTY/CF3mtDhk51uWI16D8K/P3JkBnZJl
-Iv1jMe8GbydGG6vzOkzowGdOdYaktPn595lEAhwqSPgRwvBth+1x/gWiHhycK0ggFWUpclYOM3WH
-+JAerc7G41krKJQyJYwsCKOnLhkMb5d0zLCs1VYbY1/u9XpG59SL1oVeIHcSKhXQhVu6/04iBAHH
-otL1ZRuK5uRagpRKv0xLpi73waXAxeGczB7MtyFnUhU2+HcDQoZ2t+P1JkSaZPL9pkJtCWXb7wcn
-ldyo8h7NOqf3Zg8BZydHQQ7zxUDXEHaDEhihpx+fYLuDnSdYT401yoXXQIGeWrbUEE4zazNRYngl
-vVKMheX3lnXwD0u+lp6Yz5fKUJMvZKq7QpziFyNm5KbrRrj42DmH3Y+rftk2duVV2g1YDHiY/I3f
-BBnK4IepebpLICNN+vKaYnAmxiO1Xfpzm0XTU7OPR+N6269sBlUtwK1mdM5b4bxNveo6nMz/MDlZ
-Iuf4iF+nbiIhXIN8xfaBSOFUwxcANeaOxYLMfjMS05v1NtMOqEdIYzVXni0DHqtxs9dQaaM/jC4S
-mwrfKTTLKCewSTGVsFSOGNPwOAM5/Fxu3snKRlYeLwKC7uq9uTFR/L64HzG0TPfjmkH24hNsuhe7
-JtcdlRcbL5rHN9C5PNOpCqcEeRDmVsS0sgAAAMwFRS7YkAXGAAGmB/cLAADBO9SpscRn+wIAAAAA
-BFla
+/Td6WFoAAATm1rRGAgAhARwAAAAQz1jM4AYGA5ZdABGIQkY99BY0cwoNj8U0dcgowbs41qLC+aej
+mGQYj9kDeUYQYXlWIuqhoJLO08e8hIe8MoGJqvcVxM5VQehFNPqq4OH1KhbHgYGz5QSdcYFBPv2D
+jY49io85pCEdBXRw6wLkkTOpm7NoQQs6ZJ5F+vtHWz70HmnRfNhHpjrb16GcK0ERg/VLAx58EUIU
+t9OVgypxnKVdJL7/XxL/nUYLT65sn6ZQvKn4HpuPvK5eKgjZfBYJ3Q0CPDeFlXWIew43sqJTwmlX
+drWBSOlU6yMbmhWTJvfLpK9UfBAh6Qwp6UJ6i0Hbwe+d8qKO/SQ1Ciz6qDbM/cLTIENPYvVjlqzV
+jDmBtzdGMfqXXuFbtNB1uIJVUd3o1rRgH0Pau7yYXZVjDxJ5a32NnSwbbxsYqvcDc5QARfe321vH
+ICPQMtds3p/nuCpmMNex8SorApU6X0jvw18w9uMIF7dE2tk0Ge58qiIOH/+V2uVZzAUAUpTa7Gb8
+0aKWiai6f4bMXfLwvUOiDOucGAW2mMzXClpI7m4jrBy+TjSjPSR1JvS2e9ppcVH2vwcXdUOxxybB
+aDCozlkd9DecONOygFJz7J+V323Oe/kocpUmrZjsQTv0kIveFoPKTTkVYX7JPhePK4FJ884pSafp
+D+KYD3iGv3QqUt0rJBFP1IHhCKsRBNAGgDEaWUUCpT7XVRgGnhXcbQYyegBik+zenQOK6VV/t61Y
+S4Jy/U332GBwLIFRjJotutij5xQmly2AnADFu5LauI9Ud8/JaR9A/AnY05eP8LbotD5oAZf973pI
+UJ5kAdMn+tgw4OP26QC35iaDK/EPWNOyz+1pjrfY/cybwBjwstmu4BaTdbNzb3im39wIX7wOcX8e
+NCixn7Q/gi9gDK+i0Ulfi5R20+QenkgNssOJ3kLfhuutsj5mYJ6wYeEE0mshgzDuXK2fW+ehHqtS
+SOTIUn3cTl74GhjX9tlotUaFGdt/yR/8N8TDzc9dRd7As9Eg4gKfP6pnZJnutTB7k7feponsA+3h
+Qbgm0NdjrxL93IdmB6cgJnMUm/A6GJTv5UynUDYwjZO82rUl3zkVGfu5nNKyEWN7K5gfRBi2l5oQ
+kckHNZJwTLt7Vta4OAfd5fraF37aRquLfrI0TGU+wHAqKpwoBpU3YOZ7o5//2CEVk7vrz5O4N6e4
+erl0B2a6XTQ2u/ICDkCLaA2q4FIbMtlCsNHjkKPV5xQO+/maKQAAABUX772XxF0fAAGyB4cMAABV
+zeNfscRn+wIAAAAABFla
 YEET
 }
 
