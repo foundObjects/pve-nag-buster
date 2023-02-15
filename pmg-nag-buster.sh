@@ -1,9 +1,9 @@
 #!/bin/sh
 #
-# pve-nag-buster.sh (v05) https://github.com/foundObjects/pve-nag-buster
+# pmg-nag-buster.sh (v05) https://github.com/foundObjects/pve-nag-buster
 # Copyright (C) 2019 /u/seaQueue (reddit.com/u/seaQueue)
 #
-# Removes Proxmox VE 6.x+ license nags automatically after updates
+# Removes Proxmox Mail Gateway license nags automatically after updates
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,20 +22,19 @@
 NAGTOKEN="data.status.toLowerCase() !== 'active'"
 NAGFILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
 SCRIPT="$(basename "$0")"
-PAID_BASE="/etc/apt/sources.list.d/pve-enterprise"
+PAID_BASE="/etc/apt/sources.list.d/pmg-enterprise"
 
 # disable paid repo list
 
 if [ -f "$PAID_BASE.list" ]; then
-  echo "$SCRIPT: Disabling PVE paid repo list ..."
+  echo "$SCRIPT: Disabling PMG paid repo list ..."
   mv -f "$PAID_BASE.list" "$PAID_BASE.disabled"
 fi
-
 
 # disable license nag: https://johnscs.com/remove-proxmox51-subscription-notice/
 
 if grep -qs "$NAGTOKEN" "$NAGFILE" > /dev/null 2>&1; then
   echo "$SCRIPT: Removing Nag ..."
   sed -i.orig "s/$NAGTOKEN/false/g" "$NAGFILE"
-  systemctl restart pveproxy.service
+  systemctl restart pmgproxy.service
 fi
