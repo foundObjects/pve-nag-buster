@@ -10,7 +10,7 @@ means. High quality open source software like Proxmox needs our support!
 
 ### News:
 
-Last updated for: pve-manager/6.4-4/337d6701 (running kernel: 5.4.106-1-pve)
+Last updated for: pve-manager/8.0.4/d258a813cfa6b390 (running kernel: 8.0.4)
 
 ### How does it work?
 
