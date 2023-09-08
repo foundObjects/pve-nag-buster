@@ -32,10 +32,17 @@ if grep -qs "$NAGTOKEN" "$NAGFILE" > /dev/null 2>&1; then
 fi
 
 # disable paid repo list
+disable_repo() {
+    local REPO_BASE="$1"
 
-PAID_BASE="/etc/apt/sources.list.d/pve-enterprise"
+    if [ -f "$REPO_BASE.list" ]; then
+        echo "Disabling $REPO_BASE repo list ..."
+        mv -f "$REPO_BASE.list" "$REPO_BASE.disabled"
+    fi
+}
 
-if [ -f "$PAID_BASE.list" ]; then
-  echo "$SCRIPT: Disabling PVE paid repo list ..."
-  mv -f "$PAID_BASE.list" "$PAID_BASE.disabled"
-fi
+# Disable pve-enterprise repo
+disable_repo "/etc/apt/sources.list.d/pve-enterprise"
+
+# Disable ceph repo
+disable_repo "/etc/apt/sources.list.d/ceph"
